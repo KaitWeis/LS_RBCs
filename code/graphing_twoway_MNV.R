@@ -42,7 +42,7 @@ plot1<-ggplot(Dthree, aes(x = Group, y = MNV, fill = time, color = time))+
   theme_classic()
 plot1
 plot2<- plot1 + scale_x_discrete("Treatment Group", labels = c("CNT" = "Hatchery", "A"= "A", "B"="B", "C"="C", "D"="D"), limits = c("CNT", "A", "B", "C", "D")) +
-  scale_fill_manual(name = "Sample Time", labels = c("Initial", "Post-Acclimation", "Final"), values = c('#999999','#C3C3C3', 'white'))
+  scale_fill_manual(name = "Sample Time", labels = c("Initial", "Post-acclimation", "Final"), values = c('#999999','#C3C3C3', 'white'))
 plot2
 
 ##now need to add the Mean bar in the middle  
@@ -97,4 +97,4 @@ plot5
 plot6<-plot5+guides(col = FALSE)
 plot6
 
-ggsave(filename = "Fig1.tiff", plot = plot6, dpi = 300, height = 6, width = 7)
+ggsave(filename = "Fig1_high.tiff", plot = plot6, dpi = 600, height = 6, width = 7)
