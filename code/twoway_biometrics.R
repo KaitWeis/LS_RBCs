@@ -7,7 +7,6 @@
 #
 #####################################################
 #load libraries
-library(openxlsx)
 library(ggplot2)
 library(tidyverse)
 library(ggpubr)
@@ -99,6 +98,9 @@ Anova(len_aov, type = "III")
 #  Group:time     171   4    0.3209  0.863808    
 #Residuals    29468 221 
 
+AIC(len_aov)
+#1797.589
+
 emmeans(len_aov, pairwise ~ Group *time, adjust = "tukey")
 #b final and b post different (0.001)
 #control post and final (0.02)
@@ -113,6 +115,45 @@ Anova(mass_aov, type = "III")
 #  time         11.34   1   4.0235 0.04609 *  
 #  Group:time   17.53   4   1.5544 0.18756    
 #Residuals   623.08 221   
+
+AIC(mass_aov)
+#906.7609
+
 emmeans(mass_aov, pairwise ~ Group *time, adjust = "tukey")
 ##b final and b post (0.02)
 #cnt post and final (0.02) 
+
+
+##there is no dignificant interaction, so testing a additive model instead 
+mm_aov<-aov(length_mm ~ Group + time, data = mixbio)
+mm_aov
+Anova(mm_aov, type = "III")
+#            Sum Sq  Df  F value    Pr(>F)    
+#(Intercept) 359425   1 2728.465 < 2.2e-16 ***
+#Group          692   4    1.314    0.2656    
+#time          6972   1   52.922 5.713e-12 ***
+#Residuals    29640 225 
+
+AIC(mm_aov)
+#1790.927
+
+emmeans(mm_aov, pairwise ~ Group*time, adjust = "tukey")
+##all of the groups showed significant growth between post and final (<0.0001)
+
+##this model has a better AIC slightly and makes more sense if no interaction 
+
+#####try for mass as well 
+
+g_aov<-aov(mass_g ~ Group + time, data = mixbio)
+Anova(g_aov, type = "III")
+#             Sum Sq  Df  F value    Pr(>F)    
+#(Intercept) 1008.48   1 354.2080 < 2.2e-16 ***
+#Group         28.31   4   2.4862    0.0444 *  
+#time          71.55   1  25.1315 1.084e-06 ***
+#Residuals    640.61 225      
+
+AIC(g_aov)
+#905.1701
+
+emmeans(g_aov, pairwise ~ Group + time, adjust = "tukey")
+##all of the groups showed significant growth between post and final (<0.0001)
